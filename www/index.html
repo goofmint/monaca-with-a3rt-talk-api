@@ -1,0 +1,82 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="Content-Security-Policy" content="default-src * data:; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+  <script src="components/loader.js"></script>
+  <script src="lib/onsenui/js/onsenui.min.js"></script>
+  <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+
+  <link rel="stylesheet" href="components/loader.css">
+  <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
+  <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
+  <link rel="stylesheet" href="css/style.css">
+
+  <script>
+    // ページの準備ができたら呼ばれます。
+    ons.ready(function() {
+			// A3RTのWEBサイトで発行したAPIKey
+			var apiKey   = "your api key";
+			var url      = "https://api.a3rt.recruit-tech.co.jp/talk/v1/smalltalk";
+
+			// 送信ボタンを押した時の処理
+			$("#send").on("click", function(e) {
+				e.preventDefault();
+				
+				// 自分の発言を画面右側に表示
+				$('#chats').append(`
+					<ons-list-item modifier="nodivider">
+						<div class="right">
+							<span class="msg">${$("#message").val()}</span>
+						</div>
+					</ons-list-item>
+				`);
+
+				// API Call
+				$.ajax({
+					url: url,
+					type:'POST',
+					data : {apikey: apiKey, query: $("#message").val()}
+				}).then(function(data){
+
+					// 成功したらレスポンスをchatbotの返事として画面左側に表示
+					$('#chats').append(`
+						<ons-list-item modifier="nodivider">
+							<span class="msg--reply">${data.results[0]['reply']}</span>
+							<span class="list-item__subtitle">A3RT chatbot</span>
+						</ons-list-item>
+					`);
+				}).fail(function(data){
+						alert('失敗しました。');
+				});
+				
+				// 元の入力内容は削除
+				$("#message").val("")
+			});
+
+    });	
+  </script>
+</head>
+<body>
+
+  <ons-page>
+  
+    <ons-toolbar class="header center">
+      <div class="center">A3RT チャットボット</div>
+    </ons-toolbar>
+
+    <div class="content">
+    	<ons-list id="chats">
+      </ons-list>
+    </div>
+    
+    <ons-tabbar position="auto" class="send-area">
+    	<ons-input id="message" placeholder="メッセージ" class="send-area__input"></ons-input>
+    	<ons-button id="send" modifier="quiet" class="send-area__btn">送信</ons-button>
+    </ons-tabbar>
+    
+  </ons-page>
+  
+</body>
+</html>
