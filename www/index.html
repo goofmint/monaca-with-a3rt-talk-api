@@ -22,7 +22,7 @@
 
 			// 送信ボタンを押した時の処理
 			$("#send").on("click", function(e) {
-				e.preventDefault();
+				if($("#message").val() === "") return;
 				
 				// 自分の発言を画面右側に表示
 				$('#chats').append(`
@@ -71,10 +71,10 @@
       </ons-list>
     </div>
     
-    <ons-tabbar position="auto" class="send-area">
+    <div class="send-area">
     	<ons-input id="message" placeholder="メッセージ" class="send-area__input"></ons-input>
     	<ons-button id="send" modifier="quiet" class="send-area__btn">送信</ons-button>
-    </ons-tabbar>
+    </div>
     
   </ons-page>
   

@@ -20,17 +20,23 @@
 .send-area__input {
 	display: inline-block;
 	position: relative;
-	width: calc(100% - 46px);
+	width: calc(100% - 60px);
 }
 
 .send-area__input input {
 	vertical-align: middle;
+	position: relative;
+	width: 98%;
 }
 
-.send-area .tabbar {
-  padding: 0 1em;
-  box-sizing: border-box;
-  line-height: 49px;
+.send-area {
+	padding: 0 5px;
+	box-sizing: border-box;
+	line-height: 49px;
+	position: fixed;
+	bottom: 0px;
+	width: 100%;
+	border-top: solid 1px #ccc;
 }
 
 .msg, .msg--reply {
